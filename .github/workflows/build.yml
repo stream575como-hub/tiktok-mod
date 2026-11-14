@@ -1,0 +1,47 @@
+name: Build IPA
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Generate iOS project files
+        run: |
+          flutter create --platforms=ios --project-name tiktok_mod --org com.example .
+          git checkout -- lib pubspec.yaml
+
+      - name: Set iOS 13 minimum and photo permissions
+        run: |
+          sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]*;/IPHONEOS_DEPLOYMENT_TARGET = 13.0;/' ios/Runner.xcodeproj/project.pbxproj
+          sed -i '' "1i\\
+          platform :ios, '13.0'
+          " ios/Podfile
+          /usr/libexec/PlistBuddy -c "Add :NSPhotoLibraryAddUsageDescription string Zapisywanie pobranych filmow" ios/Runner/Info.plist
+          /usr/libexec/PlistBuddy -c "Add :NSPhotoLibraryUsageDescription string Zapisywanie pobranych filmow" ios/Runner/Info.plist
+
+      - run: flutter pub get
+
+      - name: Build (bez podpisu)
+        run: flutter build ios --release --no-codesign
+
+      - name: Package IPA
+        run: |
+          mkdir -p Payload
+          cp -R build/ios/iphoneos/Runner.app Payload/
+          zip -qry TikTokMod.ipa Payload
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: TikTokMod-ipa
+          path: TikTokMod.ipaa
