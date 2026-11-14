@@ -24,9 +24,6 @@ jobs:
       - name: Set iOS 13 minimum and photo permissions
         run: |
           sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]*;/IPHONEOS_DEPLOYMENT_TARGET = 13.0;/' ios/Runner.xcodeproj/project.pbxproj
-          sed -i '' "1i\\
-          platform :ios, '13.0'
-          " ios/Podfile
           /usr/libexec/PlistBuddy -c "Add :NSPhotoLibraryAddUsageDescription string Zapisywanie pobranych filmow" ios/Runner/Info.plist
           /usr/libexec/PlistBuddy -c "Add :NSPhotoLibraryUsageDescription string Zapisywanie pobranych filmow" ios/Runner/Info.plist
 
@@ -44,4 +41,4 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: TikTokMod-ipa
-          path: TikTokMod.ipaa
+          path: TikTokMod.ipa
