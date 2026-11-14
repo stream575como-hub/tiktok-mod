@@ -1,0 +1,16 @@
+[
+  {
+    "text": "Nowa wersja TikTok Mod by Mistrzel!",
+    "color": "red",
+    "pos": "top",
+    "dismissible": true,
+    "enabled": true
+  },
+  {
+    "text": "Kolor moze byc tez w hex, np. #FF8800",
+    "color": "#FF8800",
+    "pos": "bottom",
+    "dismissible": true,
+    "enabled": false
+  }
+]

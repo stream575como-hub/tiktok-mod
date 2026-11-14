@@ -1,0 +1,20 @@
+name: tiktok_mod
+description: TikTok z wlasnymi modami (WebView + mody)
+publish_to: 'none'
+version: 1.1.0+2
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  webview_flutter: ^4.9.0
+  http: ^1.2.0
+  gal: ^2.3.0
+  path_provider: ^2.1.0
+  share_plus: ^10.0.0
+  shared_preferences: ^2.2.0
+
+flutter:
+  uses-material-design: true
